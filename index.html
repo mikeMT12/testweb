@@ -3,47 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моя визитка - География и Информатика</title>
+    <title>Мой Кинопоиск 2026</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: linear-gradient(to right, #4facfe, #00f2fe); color: #333; }
-        header { background: rgba(255,255,255,0.9); padding: 20px; text-align: center; }
-        section { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h1, h2 { color: #00f2fe; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin: 10px 0; padding: 10px; background: #f0f8ff; border-radius: 5px; }
-        button { background: #4facfe; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
-        button:hover { background: #00f2fe; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #141414; color: white; }
+        header { background: linear-gradient(90deg, #df0028, #b8001e); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: bold; }
+        .search { padding: 0.8rem 1.5rem; border: none; border-radius: 25px; width: 300px; font-size: 1rem; }
+        .section { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+        h2 { margin-bottom: 1.5rem; color: #e5e5e5; font-size: 1.8rem; }
+        .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+        .movie-card { background: #2d2d2d; border-radius: 8px; overflow: hidden; transition: transform 0.3s; }
+        .movie-card:hover { transform: scale(1.05); }
+        .movie-poster { width: 100%; height: 300px; background: #444; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #888; }
+        .movie-info { padding: 1rem; }
+        .movie-title { font-weight: bold; margin-bottom: 0.5rem; }
+        .movie-year { color: #aaa; font-size: 0.9rem; }
+        .rating { background: #f5c518; color: #000; padding: 0.2rem 0.5rem; border-radius: 12px; font-weight: bold; font-size: 0.8rem; }
+        .rating.green { background: #4CAF50; color: white; }
+        .rating.red { background: #f44336; color: white; }
+        .stats { margin-top: 2rem; background: #1f1f1f; padding: 1.5rem; border-radius: 12px; }
+        @media (max-width: 768px) { .search { width: 200px; } .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } }
     </style>
 </head>
 <body>
     <header>
-        <h1>Студент: География + Информатика</h1>
-        <p>Из Санкт-Петербурга. Интересы: данные, карты, Python.</p>
+        <div class="logo">🎬 Мой Кинопоиск 2026</div>
+        <input type="text" class="search" id="search" placeholder="Поиск по фильмам...">
     </header>
-    <section>
-        <h2>Интересы</h2>
-        <ul id="interests">
-            <li>География регионов (Азия, демография)</li>
-            <li>Программирование (Python, алгоритмы)</li>
-            <li>Кино (советские фильмы)</li>
-            <li>EGE подготовка</li>
-        </ul>
-        <button onclick="addInterest()">Добавить интерес</button>
-    </section>
-    <section>
-        <h2>Статистика</h2>
-        <p>Средняя оценка фильмам 2025: 8.39/10</p>[cite:13]
-    </section>
+
+    <div class="section">
+        <h2>Топ 2025 (ср. 8.39/10)</h2>
+        <div class="movies-grid" id="topMovies"></div>
+    </div>
+
+    <div class="section">
+        <h2>Советская классика</h2>
+        <div class="movies-grid" id="sovietMovies"></div>
+    </div>
+
+    <div class="section">
+        <div class="stats">
+            <h3>📊 Статистика 2025</h3>
+            <p><strong>Всего фильмов:</strong> 61 | <strong>Средняя оценка:</strong> 8.39/10 | <strong>Медиана:</strong> 8/10</p>
+            <p><strong>Топ-год:</strong> 2014 (5 фильмов) | <strong>Диапазон:</strong> 5–10/10</p>
+        </div>
+    </div>
+
     <script>
-        function addInterest() {
-            const list = document.getElementById('interests');
-            const newInterest = prompt('Новый интерес:');
-            if (newInterest) {
-                const li = document.createElement('li');
-                li.textContent = newInterest;
-                list.appendChild(li);
-            }
+        // Твои реальные фильмы из истории
+        const moviesData = [
+            {title: "Дурак (2014)", year: "2014", rating: 10, category: "top"},
+            {title: "Город грехов 2", year: "2014", rating: 7, category: "top"},
+            {title: "Неуловимые мстители", year: "1971", rating: 9, category: "soviet"},
+            {title: "Гарри Поттер и Дары Смерти", year: "2010", rating: 8, category: "top"},
+            {title: "Семь (Se7en)", year: "1995", rating: 9, category: "top"},
+            {title: "Хороший, плохой, злой", year: "1966", rating: 10, category: "soviet"},
+            {title: "Криминальное чтиво", year: "1994", rating: 9, category: "top"},
+            {title: "Бешеные псы", year: "1992", rating: 8, category: "top"},
+            {title: "Огонь", year: "2021", rating: 5, category: "top"}
+        ];
+
+        function getRatingColor(rating) {
+            if (rating >= 8) return 'green';
+            if (rating >= 5) return 'orange';
+            return 'red';
         }
+
+        function displayMovies(category, containerId) {const container = document.getElementById(containerId);
+            const filtered = moviesData.filter(m => m.category === category);
+            container.innerHTML = filtered.map(movie =>
+                <div class="movie-card">
+                    <div class="movie-poster">📽️ ${movie.title}</div>
+                    <div class="movie-info">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-year">${movie.year}</div>
+                        <div class="rating ${getRatingColor(movie.rating)}">${movie.rating}/10</div>
+                    </div>
+                </div>
+            ).join('');
+        }
+
+        // Инициализация
+        displayMovies('top', 'topMovies');
+        displayMovies('soviet', 'sovietMovies');
+
+        // Поиск
+        document.getElementById('search').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const allMovies = document.querySelectorAll('.movie-card');
+            allMovies.forEach(card => {
+                const title = card.querySelector('.movie-title').textContent.toLowerCase();
+                card.style.display = title.includes(term) ? 'block' : 'none';
+            });
+        });
     </script>
 </body>
 </html>
