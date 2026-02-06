@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя визитка - География и Информатика</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: linear-gradient(to right, #4facfe, #00f2fe); color: #333; }
+        header { background: rgba(255,255,255,0.9); padding: 20px; text-align: center; }
+        section { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1, h2 { color: #00f2fe; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; padding: 10px; background: #f0f8ff; border-radius: 5px; }
+        button { background: #4facfe; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #00f2fe; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Студент: География + Информатика</h1>
+        <p>Из Санкт-Петербурга. Интересы: данные, карты, Python.</p>
+    </header>
+    <section>
+        <h2>Интересы</h2>
+        <ul id="interests">
+            <li>География регионов (Азия, демография)</li>
+            <li>Программирование (Python, алгоритмы)</li>
+            <li>Кино (советские фильмы)</li>
+            <li>EGE подготовка</li>
+        </ul>
+        <button onclick="addInterest()">Добавить интерес</button>
+    </section>
+    <section>
+        <h2>Статистика</h2>
+        <p>Средняя оценка фильмам 2025: 8.39/10</p>[cite:13]
+    </section>
+    <script>
+        function addInterest() {
+            const list = document.getElementById('interests');
+            const newInterest = prompt('Новый интерес:');
+            if (newInterest) {
+                const li = document.createElement('li');
+                li.textContent = newInterest;
+                list.appendChild(li);
+            }
+        }
+    </script>
+</body>
+</html>
