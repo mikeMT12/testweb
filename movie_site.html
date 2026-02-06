@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>CineVerse — портал о кино</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat',sans-serif}
+body{background:#0b0b10;color:#fff}
+header{background:linear-gradient(90deg,#ff0080,#7928ca);padding:25px;text-align:center;position:sticky;top:0;z-index:10}
+header h1{font-size:2.5rem}
+nav{margin-top:10px}
+nav button{background:none;border:1px solid #fff;color:#fff;padding:8px 15px;border-radius:20px;margin:5px;cursor:pointer;transition:.3s}
+nav button:hover{background:#fff;color:#000}
+#search{margin-top:15px;padding:10px;width:90%;max-width:400px;border-radius:10px;border:none}
+.hero{padding:40px;text-align:center}
+.hero h2{font-size:2rem;margin-bottom:10px}
+main{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:20px}
+.card{background:#14141c;border-radius:15px;overflow:hidden;box-shadow:0 0 20px rgba(0,0,0,.4);transition:.3s}
+.card:hover{transform:translateY(-8px) scale(1.03)}
+.card img{width:100%;height:320px;object-fit:cover}
+.card .info{padding:12px}
+.card h3{color:#ffcc00}
+.rating{color:#00ffcc}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center}
+.modal-content{background:#1c1c28;padding:20px;border-radius:20px;max-width:500px;text-align:center}
+.modal img{width:200px;border-radius:10px}
+.close{margin-top:10px;padding:8px 20px;border:none;border-radius:20px;background:#ff0080;color:#fff;cursor:pointer}
+footer{text-align:center;padding:20px;background:#111}
+</style>
+</head>
+<body>
+<header>
+<h1>🎥 CineVerse</h1>
+<p>Портал о лучших фильмах планеты</p>
+<input id="search" placeholder="Поиск фильма...">
+<nav>
+<button onclick="filterGenre('all')">Все</button>
+<button onclick="filterGenre('sci-fi')">Фантастика</button>
+<button onclick="filterGenre('drama')">Драма</button>
+<button onclick="filterGenre('action')">Боевик</button>
+</nav>
+</header>
+<section class="hero">
+<h2>Популярные фильмы</h2>
+<p>Выбирай, смотри, оценивай</p>
+</section>
+<main id="movies"></main>
+<div class="modal" id="modal">
+<div class="modal-content">
+<img id="modalImg">
+<h2 id="modalTitle"></h2>
+<p id="modalYear"></p>
+<p id="modalDesc"></p>
+<button class="close" onclick="closeModal()">Закрыть</button>
+</div>
+</div>
+<footer>
+<p>© 2026 CineVerse | Сделано тобой 😎</p>
+</footer>
+<script>
+const movieData=[
+{title:'Интерстеллар',year:2014,genre:'sci-fi',rating:8.6,desc:'Путешествие сквозь пространство и время ради спасения человечества.',img:'https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqoNMq3RnftcOB.jpg'},
+{title:'Матрица',year:1999,genre:'sci-fi',rating:8.7,desc:'Мир — иллюзия. Реальность опасна.',img:'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg'},
+{title:'Джокер',year:2019,genre:'drama',rating:8.5,desc:'История безумия и одиночества.',img:'https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg'},
+{title:'Мстители',year:2012,genre:'action',rating:8.0,desc:'Герои объединяются ради спасения мира.',img:'https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg'}
+];
+const moviesEl=document.getElementById('movies');
+const search=document.getElementById('search');
+let currentGenre='all';
+function render(list){moviesEl.innerHTML='';list.forEach(m=>{moviesEl.innerHTML+=`
+<div class="card" onclick="openModal('${m.title}')">
+<img src="${m.img}">
+<div class="info">
+<h3>${m.title}</h3>
+<p>${m.year}</p>
+<p class="rating">⭐ ${m.rating}</p>
+</div>
+</div>`})}
+render(movieData);
+search.addEventListener('input',()=>{
+const v=search.value.toLowerCase();
+render(movieData.filter(m=>m.title.toLowerCase().includes(v)&& (currentGenre==='all'||m.genre===currentGenre)))
+});
+function filterGenre(g){currentGenre=g;render(movieData.filter(m=>g==='all'||m.genre===g))}
+function openModal(title){const m=movieData.find(x=>x.title===title);document.getElementById('modal').style.display='flex';modalImg.src=m.img;modalTitle.innerText=m.title;modalYear.innerText='Год: '+m.year;modalDesc.innerText=m.desc}
+function closeModal(){document.getElementById('modal').style.display='none'}
+</script>
+</body>
+</html>
